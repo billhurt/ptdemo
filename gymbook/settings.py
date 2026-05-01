@@ -1,10 +1,10 @@
+import os
 from pathlib import Path
-from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = config('SECRET_KEY', default='dev-secret-key-change-me')
-DEBUG = config('DEBUG', default=False, cast=bool)
+SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret-key-change-me')
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
@@ -63,11 +63,11 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Stripe
-STRIPE_SECRET_KEY = config('STRIPE_SECRET_KEY', default='')
-STRIPE_PUBLISHABLE_KEY = config('STRIPE_PUBLISHABLE_KEY', default='')
-STRIPE_WEBHOOK_SECRET = config('STRIPE_WEBHOOK_SECRET', default='')
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', '')
+STRIPE_PUBLISHABLE_KEY = os.environ.get('STRIPE_PUBLISHABLE_KEY', '')
+STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET', '')
 
 # Session pricing (no Stripe Price ID needed — we create dynamically)
-SESSION_PRICE = config('SESSION_PRICE', default=4500, cast=int)   # in pence
-SESSION_CURRENCY = config('SESSION_CURRENCY', default='gbp')
-SESSION_NAME = config('SESSION_NAME', default='Personal Training Session')
+SESSION_PRICE = int(os.environ.get('SESSION_PRICE', '4500'))  # in pence
+SESSION_CURRENCY = os.environ.get('SESSION_CURRENCY', 'gbp')
+SESSION_NAME = os.environ.get('SESSION_NAME', 'Personal Training Session')
