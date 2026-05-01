@@ -1,0 +1,198 @@
+{% extends "booking/base.html" %}
+{% block title %}FitBook — Book Your Session{% endblock %}
+
+{% block extra_head %}
+<style>
+  /* NAV */
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem 3rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+  }
+  .nav-link {
+    font-size: 0.85rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* HERO */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: calc(100vh - 80px);
+    gap: 0;
+  }
+  .hero-left {
+    padding: 6rem 3rem 6rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-right: 1px solid var(--border);
+  }
+  .eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 7vw, 7rem);
+    line-height: 0.95;
+    letter-spacing: 0.02em;
+    margin-bottom: 2rem;
+  }
+  h1 span { color: var(--accent); }
+  .hero-desc {
+    font-size: 1.05rem;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 420px;
+    margin-bottom: 3rem;
+  }
+  .btn-book {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: var(--accent);
+    color: #000;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    padding: 1rem 2.5rem;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    width: fit-content;
+  }
+  .btn-book:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(245,166,35,0.3);
+  }
+  .btn-book svg { transition: transform 0.15s; }
+  .btn-book:hover svg { transform: translateX(4px); }
+
+  .price-note {
+    margin-top: 1.25rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+  }
+
+  /* RIGHT PANEL */
+  .hero-right {
+    padding: 4rem 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1.5rem;
+    background: var(--surface);
+  }
+  .feature-card {
+    border: 1px solid var(--border);
+    padding: 1.75rem;
+    transition: border-color 0.2s;
+  }
+  .feature-card:hover { border-color: var(--accent); }
+  .feature-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    color: var(--accent);
+    opacity: 0.4;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+  .feature-title {
+    font-weight: 500;
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+  }
+  .feature-text {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* FOOTER STRIP */
+  .footer-strip {
+    border-top: 1px solid var(--border);
+    padding: 1.5rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1.5rem; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 3rem 1.5rem; border-right: none; border-bottom: 1px solid var(--border); }
+    .hero-right { padding: 2rem 1.5rem; }
+    .footer-strip { padding: 1rem 1.5rem; flex-direction: column; gap: 0.5rem; text-align: center; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<nav>
+  <div class="logo">FitBook</div>
+  <a class="nav-link" href="#">London, UK</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-left">
+    <p class="eyebrow">Personal Training &amp; Small Group Sessions</p>
+    <h1>Train<br>Smarter.<br><span>Book</span><br>Now.</h1>
+    <p class="hero-desc">
+      One session. Real results. Work with certified trainers who push you past your limits — then book your next one before you leave the gym.
+    </p>
+    <form method="POST" action="{% url 'checkout' %}">
+      {% csrf_token %}
+      <button class="btn-book" type="submit">
+        Book a Session
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </form>
+    <p class="price-note">£45 per session · Secure checkout via Stripe</p>
+  </div>
+
+  <div class="hero-right">
+    <div class="feature-card">
+      <div class="feature-num">01</div>
+      <div class="feature-title">Certified Trainers</div>
+      <div class="feature-text">Every trainer is fully insured and holds a Level 3+ qualification. No guesswork, just proven methodology.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">02</div>
+      <div class="feature-title">Flexible Scheduling</div>
+      <div class="feature-text">Early mornings, evenings, weekends — sessions fit around your life, not the other way around.</div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-num">03</div>
+      <div class="feature-title">Instant Confirmation</div>
+      <div class="feature-text">Pay securely, get confirmed instantly. No back-and-forth emails. Just show up and lift.</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer-strip">
+  <span>© 2026 FitBook</span>
+  <span>Payments secured by Stripe</span>
+</div>
+{% endblock %}

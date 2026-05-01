@@ -1,0 +1,68 @@
+{% extends "booking/base.html" %}
+{% block title %}Booking Confirmed — FitBook{% endblock %}
+
+{% block extra_head %}
+<style>
+  .success-wrap {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 3rem 1.5rem;
+  }
+  .check-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 2.5rem;
+    animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  @keyframes pop {
+    from { transform: scale(0); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+  }
+  .success-wrap h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+  }
+  .success-wrap p {
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 360px;
+    margin: 0 auto 2.5rem;
+  }
+  .btn-home {
+    display: inline-block;
+    border: 1px solid var(--border);
+    padding: 0.8rem 2rem;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-home:hover { border-color: var(--accent); color: var(--accent); }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="success-wrap">
+  <div class="check-circle">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+      <path d="M7 16l6 6 12-12" stroke="#f5a623" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+  <h2>You're Booked.</h2>
+  <p>Your session is confirmed and payment received. Check your email for details — we'll see you in the gym.</p>
+  <a class="btn-home" href="{% url 'landing' %}">← Back to Home</a>
+</div>
+{% endblock %}

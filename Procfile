@@ -1,0 +1,1 @@
+web: gunicorn gymbook.wsgi --log-file -
