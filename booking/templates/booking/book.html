@@ -350,7 +350,7 @@
     </div>
   </div>
 
-  <form method="POST" action="{% url 'checkout' %}" id="booking-form">
+  <form method="POST" action="/book/checkout/" id="booking-form">
     {% csrf_token %}
     <input type="hidden" name="trainer" id="hidden-trainer">
     <input type="hidden" name="session_date" id="hidden-date">
