@@ -1,5 +1,4 @@
-django>=5.0
-stripe>=8.0
-gunicorn
-whitenoise
-python-decouple
+asgiref==3.11.1
+decouple==0.0.7
+Django==5.2.13
+sqlparse==0.5.5

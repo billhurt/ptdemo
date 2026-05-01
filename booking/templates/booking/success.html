@@ -4,65 +4,186 @@
 {% block extra_head %}
 <style>
   .success-wrap {
-    min-height: 100vh;
+    min-height: calc(100vh - 64px - 52px);
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
-    text-align: center;
     padding: 3rem 1.5rem;
   }
-  .check-circle {
-    width: 80px;
-    height: 80px;
+
+  .success-card {
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+    animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+  }
+
+  @keyframes pop {
+    from { opacity: 0; transform: scale(0.92) translateY(20px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .check-ring {
+    width: 72px;
+    height: 72px;
     border-radius: 50%;
-    border: 2px solid var(--accent);
+    border: 1.5px solid var(--accent);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 2.5rem;
-    animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin: 0 auto 2rem;
+    position: relative;
   }
-  @keyframes pop {
-    from { transform: scale(0); opacity: 0; }
-    to   { transform: scale(1); opacity: 1; }
+  .check-ring::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: 1px solid rgba(232,255,71,0.15);
   }
-  .success-wrap h2 {
+
+  .success-heading {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 3.5rem;
-    letter-spacing: 0.05em;
-    margin-bottom: 1rem;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.5rem;
   }
-  .success-wrap p {
-    color: var(--muted);
-    font-size: 1rem;
+
+  .success-sub {
+    font-size: 0.9rem;
+    color: var(--muted2);
     line-height: 1.7;
-    max-width: 360px;
-    margin: 0 auto 2.5rem;
+    margin-bottom: 2.5rem;
   }
-  .btn-home {
-    display: inline-block;
+
+  .booking-detail {
+    background: var(--surface);
     border: 1px solid var(--border);
-    padding: 0.8rem 2rem;
-    font-size: 0.85rem;
-    letter-spacing: 0.08em;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    text-align: left;
+  }
+
+  .booking-detail-title {
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--muted);
-    transition: border-color 0.2s, color 0.2s;
+    margin-bottom: 1rem;
   }
-  .btn-home:hover { border-color: var(--accent); color: var(--accent); }
+
+  .booking-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .booking-row:last-child { border-bottom: none; }
+  .booking-row-label { color: var(--muted2); }
+  .booking-row-val { font-weight: 500; }
+
+  .success-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+
+  .confetti-wrap {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 999;
+  }
+  .confetti-piece {
+    position: absolute;
+    top: -10px;
+    width: 8px;
+    height: 8px;
+    opacity: 0;
+    animation: confettiFall linear both;
+  }
 </style>
 {% endblock %}
 
 {% block content %}
+<div class="confetti-wrap" id="confetti"></div>
+
 <div class="success-wrap">
-  <div class="check-circle">
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-      <path d="M7 16l6 6 12-12" stroke="#f5a623" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
+  <div class="success-card">
+    <div class="check-ring">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+        <path d="M6 14l5.5 5.5L22 9" stroke="#e8ff47" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <div class="success-heading">You're Booked.</div>
+    <p class="success-sub">
+      Payment confirmed. Your session is locked in — check your email for a receipt from Stripe.
+    </p>
+
+    {% if booking %}
+    <div class="booking-detail">
+      <div class="booking-detail-title">Session Details</div>
+      <div class="booking-row">
+        <span class="booking-row-label">Name</span>
+        <span class="booking-row-val">{{ booking.name }}</span>
+      </div>
+      <div class="booking-row">
+        <span class="booking-row-label">Trainer</span>
+        <span class="booking-row-val">{{ booking.trainer|capfirst }}</span>
+      </div>
+      <div class="booking-row">
+        <span class="booking-row-label">Date</span>
+        <span class="booking-row-val">{{ booking.session_date|date:"l j F Y" }}</span>
+      </div>
+      <div class="booking-row">
+        <span class="booking-row-label">Time</span>
+        <span class="booking-row-val">{{ booking.session_time|time:"H:i" }}</span>
+      </div>
+    </div>
+    {% endif %}
+
+    <div class="success-actions">
+      <a href="{% url 'landing' %}" class="btn btn-ghost">← Back to Home</a>
+      <a href="{% url 'book' %}" class="btn btn-primary">Book Another</a>
+    </div>
   </div>
-  <h2>You're Booked.</h2>
-  <p>Your session is confirmed and payment received. Check your email for details — we'll see you in the gym.</p>
-  <a class="btn-home" href="{% url 'landing' %}">← Back to Home</a>
 </div>
+
+<script>
+  // Confetti burst on load
+  const colors = ['#e8ff47', '#ffffff', '#666666', '#e8ff4799'];
+  const wrap = document.getElementById('confetti');
+
+  for (let i = 0; i < 60; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    const size = Math.random() * 8 + 5;
+    el.style.cssText = `
+      left: ${Math.random() * 100}%;
+      width: ${size}px;
+      height: ${size}px;
+      background: ${colors[Math.floor(Math.random() * colors.length)]};
+      border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
+      animation-duration: ${1.5 + Math.random() * 2}s;
+      animation-delay: ${Math.random() * 0.6}s;
+    `;
+    wrap.appendChild(el);
+  }
+
+  // Inject keyframes
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes confettiFall {
+      0%   { opacity: 1; transform: translateY(0) rotate(0deg); }
+      100% { opacity: 0; transform: translateY(100vh) rotate(${Math.random()*720}deg); }
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Clean up after animation
+  setTimeout(() => wrap.remove(), 4000);
+</script>
 {% endblock %}
