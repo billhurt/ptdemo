@@ -460,15 +460,24 @@
     </div>
 
     <div class="submit-row" id="submit-row" style="display:none;">
-      <button type="submit" class="btn btn-primary" id="submit-btn">
-        Pay Securely
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-      <div class="submit-note">
-        You'll be taken to Stripe's secure checkout. (in test mode).<br>
-        Your booking is confirmed on payment.
+      <div style="width:100%;">
+        <div style="background:var(--accent-glow);border:1px solid rgba(232,255,71,0.25);padding:0.75rem 1rem;margin-bottom:1rem;font-size:0.8rem;letter-spacing:0.03em;line-height:1.6;">
+          🧪 <strong style="color:var(--accent);">Demo Mode</strong> — Use test card:
+          <strong style="color:var(--text);">4242 4242 4242 4242</strong>,
+          any future expiry, any CVC.
+        </div>
+        <div style="display:flex;align-items:center;gap:1.5rem;">
+          <button type="submit" class="btn btn-primary" id="submit-btn">
+            Pay Securely (Test Mode)
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="submit-note">
+            You'll be taken to Stripe's secure checkout.<br>
+            Your booking is confirmed on payment.
+          </div>
+        </div>
       </div>
     </div>
 
