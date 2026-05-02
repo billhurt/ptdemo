@@ -112,6 +112,8 @@
       transform: none !important;
     }
 
+    .cta-short { display: none; }
+
     /* ---- FOOTER ---- */
     .footer {
       border-top: 1px solid var(--border);
@@ -132,21 +134,25 @@
     @media (max-width: 640px) {
       .nav { padding: 1.25rem 1.25rem; }
       .footer { padding: 1.25rem; flex-direction: column; gap: 0.5rem; }
+      .nav-link { display: none; }
+      .cta-long { display: none; }
+      .cta-short { display: inline; }
     }
   </style>
   {% block extra_head %}{% endblock %}
 </head>
 <body>
 
-<nav class="nav">
-  <a href="{% url 'landing' %}" class="nav-logo">FitBook</a>
-  <div class="nav-right">
-    <a class="nav-link" href="{% url 'book' %}">Book a Session</a>
-    <a class="btn btn-primary" href="https://tredgolddigital.com/#contact" target="_blank" style="font-size:0.72rem;padding:0.6rem 1.25rem;">
-      Want this for your business?
-    </a>
-  </div>
-</nav>
+  <nav class="nav">
+    <a href="{% url 'landing' %}" class="nav-logo">FitBook</a>
+    <div class="nav-right">
+      <a class="nav-link" href="{% url 'book' %}">Book a Session</a>
+      <a class="btn btn-primary cta-btn" href="https://tredgolddigital.com/#contact" target="_blank" style="font-size:0.72rem;padding:0.6rem 1.25rem;">
+        <span class="cta-long">Want this for your business?</span>
+        <span class="cta-short">Get in touch</span>
+      </a>
+    </div>
+  </nav>
 
 {% block content %}{% endblock %}
 
